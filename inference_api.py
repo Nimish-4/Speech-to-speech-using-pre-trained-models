@@ -1,7 +1,7 @@
 from huggingface_hub import InferenceClient
+import os
 
-
-API_TOKEN="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"
+API_TOKEN=os.getenv("API_TOKEN")
 
 def query_response(query):
 
