@@ -11,7 +11,6 @@ def query_response(query):
         )
 
         response = client.chat_completion(
-                messages=[{"role": "user", "content": query}],
                 max_tokens=200,
                 stream=False,
         )

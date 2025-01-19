@@ -17,6 +17,7 @@ CHANNELS = 1
 VAD_THRESHOLD = 0.5    
 
 
+
 def is_voice(data, threshold=VAD_THRESHOLD):
     return np.max(np.abs(data)) > threshold
 
