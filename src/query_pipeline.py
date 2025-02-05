@@ -1,31 +1,37 @@
 import argparse
 from inference_api import query_response
 
+
 class Pipeline:
-    def __init__(self, query='', response=''):
-        self.query, self.path = self.parse_arguments()
-        self.response = response
+    def __init__(self, query="", path=""):
+        self.query, self.path = query, path
 
     def generate_response(self):
         return query_response(self.query)
 
-    
-    def parse_arguments(self):
 
-        parser = argparse.ArgumentParser(description ='Process user query and generate response.')
-        parser.add_argument('--query', 
-                            type = str, 
-                            help ='The query to be answered',
-                            default = None)
+def parse_arguments():
 
-        parser.add_argument('--path', 
-                            type = str, 
-                            help ='The file path to the query in audio form',
-                            default=None)
+    parser = argparse.ArgumentParser(
+        description="Process user query and generate response."
+    )
+    parser.add_argument(
+        "--query", type=str, help="The query to be answered", default=None
+    )
 
-        args = parser.parse_args()
-        query = args.query
-        path = args.path
-        #print(query)
+    parser.add_argument(
+        "--path",
+        type=str,
+        help="The file path to the query in audio form",
+        default=None,
+    )
 
-        return query, path
+    args = parser.parse_args()
+    return args.query, args.path
+
+
+if __name__ == "__main__":
+    query, path = parse_arguments()
+    pipeline = Pipeline(query, path)
+    response = pipeline.generate_response()
+    print("Response:", response)
