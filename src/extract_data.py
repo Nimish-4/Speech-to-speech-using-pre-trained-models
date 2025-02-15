@@ -1,24 +1,29 @@
 import requests
 from bs4 import BeautifulSoup
+import random
+import time
 
 # Function to get the response object from Yahoo.com's finance page
 # Top news articles of the moment, in the response object, are  tags of class 'js-content-viewer'
 
 def get_page(url):
-    response = requests.get(url)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+    response = requests.get(url, headers=headers)
     if not response.ok:
         print('Status code:', response.status_code)
-        raise Exception('Failed to load page {}'.format(url))
+        raise Exception(f'Failed to load page {url}')
     page_content = response.text
     doc = BeautifulSoup(page_content, 'html.parser')
     return doc
 
 
-my_url = "https://finance.yahoo.com/news"
+my_url = "https://finance.yahoo.com/news/"
 
 doc = get_page(my_url)
 
-a_tags = doc.find_all('div', {'class': "content svelte-w27v8j"})
+a_tags = doc.find_all('div', {'class': "content yf-82qtw3"})
 articles = []
 
 for i in range(min(25,len(a_tags))):      #restricting to 25 articles
@@ -49,8 +54,18 @@ for link in links:
   if link.find('video')==-1:                      # Excluding news links with videos instead of articles
 
     curr = ""
-    res = requests.get(link)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+    res = requests.get(link, headers=headers)
+
+    sleep_time = random.uniform(1, 3)  # Wait between 2 to 5 seconds
+    time.sleep(sleep_time)
+
+
     article = BeautifulSoup(res.text, 'html.parser')
+
+    #print(article)
     outer = article.find_all('div',{'class':'caas-body'})
     title = article.find('h1',{'id':'caas-lead-header-undefined'})
 
