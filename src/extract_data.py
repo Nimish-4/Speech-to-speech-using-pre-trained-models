@@ -26,7 +26,7 @@ doc = get_page(my_url)
 a_tags = doc.find_all('div', {'class': "content yf-82qtw3"})
 articles = []
 
-for i in range(min(25,len(a_tags))):      #restricting to 25 articles
+for i in range(min(15,len(a_tags))):      #restricting to 25 articles
   articles.append(a_tags[i].find('a'))
 
   
@@ -59,15 +59,15 @@ for link in links:
     }
     res = requests.get(link, headers=headers)
 
-    sleep_time = random.uniform(1, 3)  # Wait between 2 to 5 seconds
+    sleep_time = random.uniform(1, 4)  # Wait between 2 to 5 seconds
     time.sleep(sleep_time)
 
 
     article = BeautifulSoup(res.text, 'html.parser')
 
     #print(article)
-    outer = article.find_all('div',{'class':'caas-body'})
-    title = article.find('h1',{'id':'caas-lead-header-undefined'})
+    outer = article.find_all('div',{'class':'body yf-tsvcyu'})
+    title = article.find('div',{'class':'cover-title yf-1rjrr1'})
 
 
     if outer!= []:

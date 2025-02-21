@@ -1,5 +1,6 @@
 import argparse
 from inference_api import query_response
+from transformers import pipeline
 
 
 class Pipeline:
@@ -8,6 +9,12 @@ class Pipeline:
 
     def generate_response(self):
         return query_response(self.query)
+    
+
+    def summarize_articles(articles_text, max_length=300, min_length=100):
+        summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+        summary = summarizer(articles_text, max_length=max_length, min_length=min_length, do_sample=False)
+        return summary[0]['summary_text']
 
 
 def parse_arguments():
